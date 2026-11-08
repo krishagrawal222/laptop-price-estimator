@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Laptop price estimator</title>
+<style>
+:root{--bg:#edf1f7;--card:#fff;--ink:#0f1c2b;--mut:#5a6b7e;--line:#dbe2ec;--acc:#2d5be3;--soft:#e2eafc;--bar:#c9d3e2;--rbg:#0f1c2b;--serif:"Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;--sans:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1018;--card:#131c28;--ink:#e8eef6;--mut:#97a7ba;--line:#243245;--acc:#8aa8ff;--soft:#1f3363;--bar:#35465c;--rbg:#16263a}}
+:root[data-theme="dark"]{--bg:#0a1018;--card:#131c28;--ink:#e8eef6;--mut:#97a7ba;--line:#243245;--acc:#8aa8ff;--soft:#1f3363;--bar:#35465c;--rbg:#16263a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--sans)}
+.w{max-width:1100px;margin:0 auto;padding:0 20px}
+header{background:#0f1c2b;color:#fff}header .w{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:62px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font:700 1.25rem var(--serif);letter-spacing:.01em}.brand svg{width:26px;height:26px;color:#ffcf5c}
+nav{display:flex;gap:6px;background:#1b2b3f;padding:4px;border-radius:99px}
+nav button{font:600 .95rem var(--sans);border:0;background:none;color:#aebdd0;padding:7px 18px;border-radius:99px;cursor:pointer;transition:background .15s,color .15s}nav button:hover{color:#fff}nav button[aria-pressed=true]{background:#ffcf5c;color:#0f1c2b}
+main{padding:34px 20px 40px}h1{font:700 2.3rem/1.15 var(--serif);margin:0 0 8px;letter-spacing:-.01em}h2{font-size:1.05rem;margin:0 0 10px}.lead,.note{color:var(--mut)}.lead{margin:0 0 18px;max-width:60ch;font-size:1.05rem}.note{font-size:.85rem;margin:8px 0 0}
+.stats{display:flex;gap:34px;flex-wrap:wrap;margin:0 0 26px}.stats b{display:block;font:700 1.7rem/1.1 var(--serif)}.stats span{color:var(--mut);font-size:.85rem}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.est{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:30px;align-items:start}
+fieldset{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:12px;padding:14px 18px 18px;margin:0 0 16px}legend{font-weight:700;padding:0 8px}
+.g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px}.g.t{grid-template-columns:repeat(3,minmax(0,1fr))}
+label{display:flex;flex-direction:column;gap:5px;font-size:.88rem;font-weight:600;color:var(--mut)}
+select,input{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 12px;min-height:44px;width:100%;transition:border-color .15s,box-shadow .15s}
+select{appearance:none;padding-right:34px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%235a6b7e' stroke-width='2'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+select:hover,input:hover{border-color:var(--acc)}select:focus,input:focus{box-shadow:0 0 0 3px var(--soft)}
+.ck{display:flex;gap:22px;margin-top:14px}.ck label{flex-direction:row;align-items:center;gap:8px;color:var(--ink);font-weight:500}.ck input{width:20px;min-height:20px;accent-color:var(--acc)}
+.lb{background:none;border:0;color:var(--acc);text-decoration:underline;font:inherit;cursor:pointer;padding:6px 0}
+.res{--ink:#f2f6fb;--mut:#9fb2c8;--line:#2b3d52;--bar:#3a4f68;--soft:rgba(255,207,92,.2);--acc:#ffcf5c;position:sticky;top:12px;background:var(--rbg);color:var(--ink);border-radius:16px;padding:24px 26px;box-shadow:0 18px 40px -22px rgba(8,16,28,.7)}
+.res h2{color:var(--mut);font-size:.95rem;margin:0 0 10px}
+.price{position:relative;display:inline-block;min-height:3.6rem;margin:0;padding:4px 22px 4px 38px;background:#ffcf5c;color:#0f1c2b;border-radius:8px 18px 18px 8px;font:700 2.9rem/1.15 var(--serif);font-variant-numeric:tabular-nums}
+.price:before{content:"";position:absolute;left:13px;top:50%;width:11px;height:11px;margin-top:-5.5px;border-radius:50%;background:var(--rbg)}
+.rng{color:var(--mut);margin:10px 0 14px}
+.badge{display:inline-block;padding:3px 13px;border-radius:99px;font-weight:700;font-size:.9rem;color:#fff}.b0{background:#1f9d88}.b1{background:#b5780f}.b2{background:#6f5bd0}.sm{font-size:.78rem;padding:1px 9px}
+#st{width:100%;height:auto;display:block}.bar{fill:var(--bar)}.hit{fill:var(--acc)}.band{fill:var(--soft)}.mk{stroke:var(--ink);stroke-width:2}#st text{font:700 11px var(--sans);fill:var(--ink)}
+.ax{display:flex;justify-content:space-between;color:var(--mut);font-size:.8rem}
+table{border-collapse:collapse;width:100%;font-size:.88rem}th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--mut);font-weight:600;font-size:.82rem}.n{text-align:right;white-space:nowrap}td small{display:block;color:var(--mut)}
+.pn{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-bottom:18px}.pl{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+.bs{list-style:none;margin:0;padding:0}.bs li{display:grid;grid-template-columns:8rem 1fr 5.6rem;gap:10px;align-items:center;padding:5px 0;font-size:.9rem}.bs small{color:var(--mut)}.tr{background:var(--bg);border-radius:99px;height:12px;overflow:hidden}.tr i{display:block;height:100%;background:var(--acc);border-radius:99px;animation:grow .7s ease-out}.bs b{text-align:right;font-weight:600}
+@keyframes grow{from{width:0}}
+.mt{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:0}.mt dd{margin:0}.mt .v{font:700 2.1rem var(--serif);color:var(--acc)}.mt .s{color:var(--mut);font-size:.85rem}
+.sc{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:12px}.sc table{min-width:880px}
+.pg{display:flex;gap:18px;justify-content:center;align-items:center;padding:16px 0}.pg button,.sb button{font:600 1rem var(--sans);background:var(--acc);color:var(--bg);border:0;border-radius:8px;padding:0 20px;min-height:42px;cursor:pointer}.pg button:disabled{opacity:.4}
+.sb{display:flex;gap:10px;margin:0 0 10px}.sb input{max-width:340px}footer{color:var(--mut);font-size:.85rem;padding-bottom:28px}[hidden]{display:none!important}
+@media(max-width:900px){.est,.pn,.mt{grid-template-columns:1fr}.res{position:static}}@media(max-width:520px){.g,.g.t{grid-template-columns:1fr}.price{font-size:2.3rem}.bs li{grid-template-columns:6rem 1fr 5rem}h1{font-size:1.8rem}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style></head><body>
+<header><div class="w"><span class="brand"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="11" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2 19.5h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Laptop price estimator</span>
+<nav aria-label="Sections"><button data-v="est" aria-pressed="true">Estimate</button><button data-v="ins" aria-pressed="false">Insights</button><button data-v="dat" aria-pressed="false">Dataset</button></nav></div></header>
+<main class="w">
+<section id="est"><h1>What is this laptop worth?</h1><p class="lead">Pick the specifications. The estimate updates as you change them and comes from a model trained on the laptops in the dataset.</p>
+<div class="stats" id="stats"></div>
+<div class="est"><form id="f" autocomplete="off">
+<fieldset><legend>Brand and type</legend><div class="g"><label>Brand<select name="co"></select></label><label>Laptop type<select name="ty"></select></label><label>Operating system<select name="os"></select></label><label>Weight (kg)<input type="number" name="kg" step="0.01"></label></div></fieldset>
+<fieldset><legend>Processor, memory and graphics</legend><div class="g"><label>Processor<select name="cpu"></select></label><label>CPU speed (GHz)<input type="number" name="ghz" step="0.1"></label><label>RAM<select name="ram"></select></label><label>Graphics card<select name="gpu"></select></label></div></fieldset>
+<fieldset><legend>Storage</legend><div class="g t"><label>SSD<select name="ssd"></select></label><label>HDD<select name="hdd"></select></label><label>Flash or hybrid<select name="oth"></select></label></div></fieldset>
+<fieldset><legend>Screen</legend><div class="g"><label>Size<select name="in"></select></label><label>Resolution<select name="res"></select></label></div><div class="ck"><label><input type="checkbox" name="ts"> Touchscreen</label><label><input type="checkbox" name="ips"> IPS panel</label></div></fieldset>
+<button type="button" class="lb" id="reset">Reset to the most common laptop in the dataset</button></form>
+<aside class="res" aria-live="polite"><h2>Estimated price</h2><p class="price" id="pr"></p><p class="rng" id="rg"></p><span class="badge" id="bd"></span>
+<p id="cap" style="margin:18px 0 6px"></p><svg id="st" viewBox="0 0 400 90" role="img" aria-label="Where this price falls among the laptops in the dataset"></svg><div class="ax"><span id="a0"></span><span id="a1"></span></div>
+<p class="note" id="fc"></p><h3 style="font-size:1rem;margin:20px 0 6px">Closest laptops in the dataset</h3>
+<table><thead><tr><th>Laptop</th><th>Specs</th><th class="n">Price</th></tr></thead><tbody id="sm"></tbody></table>
+<p class="note">Model: Random Forest. On laptops it had not seen it scored R² <span id="r2"></span> with an average error of about <span id="mae"></span>.</p></aside></div></section>
+<section id="ins" hidden><h1>What drives laptop prices</h1><p class="lead">Calculated from the dataset. The number in brackets is how many laptops are in each group.</p>
+<div class="pn"><div class="pl"><h2>Average price by RAM</h2><ul class="bs" id="i1"></ul></div><div class="pl"><h2>Average price by laptop type</h2><ul class="bs" id="i2"></ul></div><div class="pl"><h2>Average price by processor</h2><ul class="bs" id="i3"></ul></div><div class="pl"><h2>Average price by brand</h2><ul class="bs" id="i4"></ul><p class="note">Brands with at least 20 laptops.</p></div></div>
+<div class="pl"><h2>How good is the model?</h2><dl class="mt"><div><dt>R² score</dt><dd class="v" id="m1"></dd><dd class="s">Share of price differences explained on unseen laptops.</dd></div><div><dt>Average error</dt><dd class="v" id="m2"></dd><dd class="s">Typical gap between estimate and real price.</dd></div><div><dt>Price category right</dt><dd class="v" id="m3"></dd><dd class="s">Budget, Mid-range or Premium chosen correctly.</dd></div></dl>
+<p class="note" id="m4"></p></div></section>
+<section id="dat" hidden><h1>The dataset</h1><p class="lead" id="dl"></p><div class="sb"><input id="q" type="search" placeholder="Search by brand, model or type" aria-label="Search the dataset"><button id="qb" type="button">Search</button></div><p class="note" id="dn"></p>
+<div class="sc"><table><thead><tr><th>Brand</th><th>Model</th><th>Type</th><th>Processor</th><th class="n">RAM</th><th class="n">SSD</th><th class="n">HDD</th><th>Graphics</th><th class="n">Screen</th><th class="n">Price</th><th>Category</th></tr></thead><tbody id="tb"></tbody></table></div>
+<div class="pg"><button id="pv" type="button">Previous</button><span id="pp"></span><button id="nx" type="button">Next</button></div></section>
+</main>
+<footer class="w">Trained on <span id="ft"></span> laptops. Prices are in Indian rupees (1 EUR = ₹110) and are only an estimate, not a market quote.</footer>
+<script>
+const DATA=/*DATA*/null,M=/*MODEL*/null;
+const D=DATA.map(r=>({co:r[0],pr:r[1],ty:r[2],cpu:r[3],gpu:r[4],os:r[5],in:r[6],w:r[7],h:r[8],ts:r[9],ips:r[10],ghz:r[11],ram:r[12],ssd:r[13],hdd:r[14],oth:r[15],kg:r[16],price:r[17],cat:r[18]}));
+const $=s=>document.querySelector(s),F=$('#f'),inr=n=>'₹'+Math.round(n).toLocaleString('en-IN'),CN=['Budget','Mid-range','Premium'];
+const cnt=k=>{const m={};D.forEach(d=>m[d[k]]=(m[d[k]]||0)+1);return m},byC=k=>{const m=cnt(k);return Object.keys(m).sort((a,b)=>m[b]-m[a])},num=k=>[...new Set(D.map(d=>d[k]))].sort((a,b)=>a-b);
+const RN={'1366x768':'HD','1600x900':'HD+','1920x1080':'Full HD','1920x1200':'WUXGA','2560x1440':'QHD','2560x1600':'WQXGA','2880x1800':'Retina','3200x1800':'QHD+','3840x2160':'4K Ultra HD','1440x900':'WXGA+'};
+const fill=(n,items)=>{F[n].innerHTML=items.map(([v,l])=>`<option value="${v}">${l}</option>`).join('')},st=(n,u)=>num(n).map(v=>[v,v?v+' '+u:'None']);
+const rc={};D.forEach(d=>{const k=d.w+'x'+d.h;rc[k]=(rc[k]||0)+1});
+fill('co',byC('co').map(v=>[v,v]));fill('ty',byC('ty').map(v=>[v,v]));fill('os',byC('os').map(v=>[v,v]));fill('cpu',byC('cpu').map(v=>[v,v]));fill('gpu',byC('gpu').filter(v=>v!='ARM').map(v=>[v,v]));
+fill('ram',num('ram').map(v=>[v,v+' GB']));fill('ssd',st('ssd','GB'));fill('hdd',st('hdd','GB'));fill('oth',st('oth','GB'));fill('in',num('in').map(v=>[v,v+' inch']));
+fill('res',Object.keys(rc).filter(k=>rc[k]>=5).sort((a,b)=>parseInt(a)-parseInt(b)).map(k=>[k,k.replace('x',' x ')+(RN[k]?' ('+RN[k]+')':'')]));
+const mode=k=>byC(k)[0],med=k=>{const a=D.map(d=>d[k]).sort((x,y)=>x-y);return a[a.length>>1]};
+const DEF={co:mode('co'),ty:mode('ty'),os:mode('os'),cpu:mode('cpu'),gpu:mode('gpu'),ram:+mode('ram'),ssd:256,hdd:0,oth:0,in:+mode('in'),res:Object.keys(rc).sort((a,b)=>rc[b]-rc[a])[0],ghz:med('ghz'),kg:med('kg'),ts:false,ips:false};
+function reset(){for(const k in DEF){const e=F[k];e.type=='checkbox'?e.checked=DEF[k]:e.value=DEF[k]}run()}
+const std={};['ram','ssd','hdd','ghz','in','kg'].forEach(k=>{const m=D.reduce((a,d)=>a+d[k],0)/D.length;std[k]=Math.sqrt(D.reduce((a,d)=>a+(d[k]-m)**2,0)/(D.length-1))||1});
+const ppi=d=>Math.hypot(d.w,d.h)/d.in;D.forEach(d=>d.ppi=ppi(d));std.ppi=(()=>{const m=D.reduce((a,d)=>a+d.ppi,0)/D.length;return Math.sqrt(D.reduce((a,d)=>a+(d.ppi-m)**2,0)/(D.length-1))})();
+const prices=D.map(d=>d.price).sort((a,b)=>a-b);
+function cat(p){return p<60000?0:p<=120000?1:2}
+function read(){const[w,h]=F.res.value.split('x').map(Number);const v={co:F.co.value,ty:F.ty.value,os:F.os.value,cpu:F.cpu.value,gpu:F.gpu.value,ram:+F.ram.value,ssd:+F.ssd.value,hdd:+F.hdd.value,oth:+F.oth.value,in:+F.in.value,w,h,ghz:+F.ghz.value,kg:+F.kg.value,ts:F.ts.checked?1:0,ips:F.ips.checked?1:0};v.ppi=ppi(v);return v}
+function vec(v){const x=[];M.cats.forEach(c=>M.values[c].forEach(k=>x.push(v[c]===k?1:0)));x.push(v.in,v.w,v.h,v.ppi,v.ts,v.ips,v.ghz,v.ram,v.ssd,v.hdd,v.oth,v.kg);return x}
+function predict(v){const x=vec(v);const p=M.trees.map(t=>{let i=0;while(t.f[i]>=0)i=x[t.f[i]]<=t.t[i]?t.l[i]:t.r[i];return t.v[i]}).sort((a,b)=>a-b);const q=f=>p[Math.min(p.length-1,Math.round(f*(p.length-1)))];return{price:p.reduce((a,b)=>a+b,0)/p.length,lo:q(.1),hi:q(.9)}}
+function similar(v){return D.map(d=>({d,s:Math.sqrt(['ram','ssd','hdd','ghz','in','kg','ppi'].reduce((a,k)=>a+((d[k]-v[k])/std[k])**2,0))+(d.ty!=v.ty)+(d.cpu!=v.cpu)+.5*(d.co!=v.co)})).sort((a,b)=>a.s-b.s).slice(0,5).map(o=>o.d)}
+const r100=n=>Math.round(n/100)*100;
+function strip(p,lo,hi){const B=32,mn=prices[0],mx=prices[prices.length-1],bw=(mx-mn)/B,c=Array(B).fill(0);prices.forEach(x=>c[Math.min(B-1,Math.floor((x-mn)/bw))]++);
+const X=a=>4+(Math.min(Math.max(a,mn),mx)-mn)/(mx-mn)*392,pk=Math.max(...c);let o=`<rect class="band" x="${X(lo)}" y="14" width="${Math.max(X(hi)-X(lo),3)}" height="58"/>`;
+c.forEach((n,i)=>{const h=n/pk*58,hit=p>=mn+i*bw&&p<mn+(i+1)*bw;o+=`<rect class="bar${hit?' hit':''}" x="${X(mn+i*bw)+.5}" y="${72-h}" width="${bw/(mx-mn)*392-1}" height="${h}"/>`});
+const m=X(p);o+=`<line x1="4" x2="396" y1="72" y2="72" stroke="var(--mut)"/><line class="mk" x1="${m}" x2="${m}" y1="14" y2="72"/><text x="${m}" y="9" text-anchor="${m>330?'end':m<70?'start':'middle'}">${inr(p)}</text>`;$('#st').innerHTML=o;$('#a0').textContent=inr(mn);$('#a1').textContent=inr(mx)}
+function run(){const v=read(),r=predict(v),p=r100(r.price),c=cat(r.price);$('#pr').textContent=inr(p);$('#rg').textContent=`Likely range ${inr(r100(r.lo))} to ${inr(r100(r.hi))}`;
+const b=$('#bd');b.textContent=CN[c];b.className='badge b'+c;const below=prices.filter(x=>x<r.price).length;$('#cap').textContent=`Costs more than ${Math.round(below/prices.length*100)}% of the ${prices.length.toLocaleString('en-IN')} laptops in the dataset.`;strip(p,r.lo,r.hi);
+const sr=D.filter(d=>d.ram==v.ram),sb=D.filter(d=>d.co==v.co),av=a=>a.reduce((s,d)=>s+d.price,0)/a.length;
+$('#fc').textContent=(sr.length?`Laptops with ${v.ram} GB RAM average ${inr(r100(av(sr)))} (${sr.length} in the dataset). `:'')+`${v.co} averages ${inr(r100(av(sb)))} across ${sb.length} laptops.`;
+$('#sm').innerHTML=similar(v).map(d=>`<tr><td>${d.co} ${d.pr}<small>${d.ty}</small></td><td>${d.cpu}, ${d.ram} GB RAM<small>${[d.ssd?d.ssd+' GB SSD':'',d.hdd?d.hdd+' GB HDD':''].filter(Boolean).join(' + ')||'Other storage'}</small></td><td class="n">${inr(d.price)}</td></tr>`).join('')}
+let t;F.addEventListener('input',()=>{clearTimeout(t);t=setTimeout(run,120)});$('#reset').onclick=reset;
+$('#r2').textContent=$('#m1').textContent=M.metrics.r2;$('#mae').textContent=$('#m2').textContent=inr(M.metrics.mae);$('#m3').textContent=M.metrics.cat_acc+'%';$('#ft').textContent=D.length.toLocaleString('en-IN');
+$('#m4').textContent=`The model was tested on ${M.metrics.test} laptops it had never seen; the estimator uses a final model trained on all ${D.length}. Budget is under ₹60,000, Mid-range is ₹60,000 to ₹1,20,000 and Premium is above ₹1,20,000.`;
+function bars(id,k,min,sort,suf=''){const g={};D.forEach(d=>{(g[d[k]]=g[d[k]]||[]).push(d.price)});let a=Object.entries(g).filter(e=>e[1].length>=min).map(([l,p])=>({l,n:p.length,v:p.reduce((x,y)=>x+y,0)/p.length}));a=sort?a.sort((x,y)=>x.l-y.l):a.sort((x,y)=>y.v-x.v);const mx=Math.max(...a.map(e=>e.v));
+$(id).innerHTML=a.map(e=>`<li><span>${e.l}${suf} <small>(${e.n})</small></span><span class="tr"><i style="width:${e.v/mx*100}%"></i></span><b>${inr(e.v)}</b></li>`).join('')}
+bars('#i1','ram',5,1,' GB');bars('#i2','ty',10);bars('#i3','cpu',15);bars('#i4','co',20);
+let pageN=1,list=D;const PER=25;$('#dl').textContent=`${D.length} laptops. Prices run from ${inr(prices[0])} to ${inr(prices[prices.length-1])}, with a median of ${inr(prices[prices.length>>1])}.`;
+function table(){const pages=Math.max(1,Math.ceil(list.length/PER));pageN=Math.min(pageN,pages);$('#dn').textContent=`${list.length} laptop${list.length==1?'':'s'}${$('#q').value.trim()?' match "'+$('#q').value.trim()+'"':''}.`;
+$('#tb').innerHTML=list.slice((pageN-1)*PER,pageN*PER).map(d=>`<tr><td>${d.co}</td><td>${d.pr}</td><td>${d.ty}</td><td>${d.cpu}</td><td class="n">${d.ram} GB</td><td class="n">${d.ssd||'-'}</td><td class="n">${d.hdd||'-'}</td><td>${d.gpu}</td><td class="n">${d.in}"</td><td class="n">${inr(d.price)}</td><td><span class="badge sm b${CN.indexOf(d.cat)}">${d.cat}</span></td></tr>`).join('')||'<tr><td colspan="11">No laptop matches. Try a brand such as Dell or a type such as Gaming.</td></tr>';
+$('#pp').textContent=`Page ${pageN} of ${pages}`;$('#pv').disabled=pageN<=1;$('#nx').disabled=pageN>=pages}
+const go=()=>{const s=$('#q').value.trim().toLowerCase();list=s?D.filter(d=>(d.co+' '+d.pr+' '+d.ty).toLowerCase().includes(s)):D;pageN=1;table()};
+$('#qb').onclick=go;$('#q').addEventListener('keydown',e=>{if(e.key=='Enter')go()});$('#pv').onclick=()=>{pageN--;table()};$('#nx').onclick=()=>{pageN++;table()};
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.setAttribute('aria-pressed',x==b));['est','ins','dat'].forEach(id=>$('#'+id).hidden=id!=b.dataset.v)});
+$('#stats').innerHTML=[[D.length.toLocaleString('en-IN'),'laptops in the dataset'],[Object.keys(cnt('co')).length,'brands'],[inr(prices[prices.length>>1]),'median price'],[M.metrics.r2,'model R² on unseen laptops']].map(s=>`<div><b>${s[0]}</b><span>${s[1]}</span></div>`).join('');
+table();reset();
+</script></body></html>
